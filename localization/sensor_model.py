@@ -36,6 +36,8 @@ class SensorModel:
         self.alpha_max = 0
         self.alpha_rand = 0
         self.sigma_hit = 0
+        self.nu = 1
+        self.epsilon = 0.1
 
         # Your sensor table will be a `table_width` x `table_width` np array:
         self.table_width = 201
@@ -86,8 +88,56 @@ class SensorModel:
         returns:
             No return type. Directly modify `self.sensor_model_table`.
         """
+        z_max = self.table_width - 1
+        table = np.zeros((self.table_width, self.table_width), dtype=np.float64)
 
-        raise NotImplementedError
+        for d in range(self.table_width):
+            col = np.zeros(self.table_width, dtype=np.float64)
+
+            for z in range(self.table_width):
+                p = 0.0
+
+                #p_hit
+                if 0 <= z <= z_max:
+                    coef = 1.0 / np.sqrt(2 * np.pi * sigma**2)
+                    exponent = -((z - d) ** 2) / (2 * sigma**2)
+                    p_hit = coef * np.exp(exponent)
+                else:
+                    return 0.0
+
+                #p_short
+                if 0 <= z <= d and d != 0:
+                    p_short =(2/d)*(1-(z/d))
+                else:
+                    p_short = 0.0
+
+                #p_max
+                p_max = 1.0/self.epsilon if (z_max-self.epsilon <= z <= z_max) else 0.0
+
+                # p_rand
+                if 0 <= z < z_max:
+                    p_rand = 1.0 / z_max
+                else:
+                    p_rand = 0.0
+
+                p = (
+                    self.alpha_hit * p_hit +
+                    self.alpha_short * p_short +
+                    self.alpha_max * p_max +
+                    self.alpha_rand * p_rand
+                )
+
+                col[z] = p
+
+            #Normalize
+            col_sum = np.sum(col)
+            if col_sum > 0:
+                col /= col_sum
+
+            table[:, d] = col
+
+        self.sensor_model_table = table
+        
 
     def evaluate(self, particles, observation):
         """
@@ -123,7 +173,39 @@ class SensorModel:
 
         scans = self.scan_sim.scan(particles)
 
-        ####################################
+        #downsample observation to the same number of beams
+        obs = np.asarray(observation, dtype=np.float64)
+        if len(obs) != self.num_beams_per_particle:
+            beam_indices = np.linspace(
+                0, len(obs) - 1, self.num_beams_per_particle
+            ).astype(int)
+            obs = obs[beam_indices]
+
+        #convert real ranges to the lookup-table scale table indices must be integers in [0, table_width-1]
+        obs_idx = np.clip(
+            np.rint(obs * self.lidar_scale_to_map_scale).astype(int),
+            0,
+            self.table_width - 1
+        )
+
+        scan_idx = np.clip(
+            np.rint(scans * self.lidar_scale_to_map_scale).astype(int),
+            0,
+            self.table_width - 1
+        )
+
+        num_particles = particles.shape[0]
+        probabilities = np.ones(num_particles, dtype=np.float64)
+
+        #multiply beam likelihoods for each particle
+        for i in range(self.num_beams_per_particle):
+            z_meas = obs_idx[i]
+            z_exp = scan_idx[:, i]
+            beam_probs = self.sensor_model_table[z_meas, z_exp]
+            probabilities *= beam_probs
+
+        return probabilities
+
 
     def map_callback(self, map_msg):
         # Convert the map to a numpy array
