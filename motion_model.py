@@ -1,7 +1,5 @@
 import numpy as np
 
-import numpy as np
-
 
 class MotionModel:
 
@@ -35,7 +33,7 @@ class MotionModel:
         """
 
         ####################################
-                # check shapes
+        # check shapes
         particles = np.asarray(particles)
         odometry = np.asarray(odometry)
         if particles.ndim != 2 or particles.shape[1] != 3:
