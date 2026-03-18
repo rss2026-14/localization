@@ -12,7 +12,7 @@ import sys
 np.set_printoptions(threshold=sys.maxsize)
 
 
-class SensorModel:
+class SensorModel():
 
     def __init__(self, node):
         node.declare_parameter('map_topic', "default")
@@ -36,9 +36,6 @@ class SensorModel:
         self.alpha_max = 0.07
         self.alpha_rand = 0.12
         self.sigma_hit = 8.0
-        self.nu = 1
-        self.epsilon = 0.1
-
         # Your sensor table will be a `table_width` x `table_width` np array:
         self.table_width = 201
         ####################################
@@ -89,53 +86,43 @@ class SensorModel:
             No return type. Directly modify `self.sensor_model_table`.
         """
         z_max = self.table_width - 1
-        table = np.zeros((self.table_width, self.table_width), dtype=np.float64)
+        W = self.table_width
 
-        for d in range(self.table_width):
-            col = np.zeros(self.table_width, dtype=np.float64)
+        # z = measured range, d = expected range
+        z = np.arange(W, dtype=np.float64)[:, None]   # shape (W, 1)
+        d = np.arange(W, dtype=np.float64)[None, :]   # shape (1, W)
 
-            for z in range(self.table_width):
-                p = 0.0
+        # Broadcast to full (W, W) grids
+        z_grid = np.broadcast_to(z, (W, W))
+        d_grid = np.broadcast_to(d, (W, W))
 
-                #p_hit
-                if 0 <= z <= z_max:
-                    coef = 1.0 / np.sqrt(2 * np.pi * self.sigma_hit**2)
-                    exponent = -((z - d) ** 2) / (2 * self.sigma_hit**2)
-                    p_hit = coef * np.exp(exponent)
-                else:
-                    return 0.0
+        # p_hit
+        p_hit = np.exp(-((z_grid - d_grid) ** 2) / (2.0 * self.sigma_hit**2))
+        p_hit = p_hit / np.sum(p_hit, axis=0, keepdims=True)
+        # p_short
+        p_short = np.zeros((W, W), dtype=np.float64)
+        valid_short = (z_grid <= d_grid) & (d_grid > 0)
+        p_short[valid_short] = (2.0 / d_grid[valid_short]) * (
+            1.0 - z_grid[valid_short] / d_grid[valid_short]
+        )
+        # p_max
+        p_max = np.zeros((W, W), dtype=np.float64)
+        p_max[z_grid == z_max] = 1.0
+        # if you want to mimic your old epsilon-style spike instead:
+        # p_max[z_grid >= (z_max - self.epsilon)] = 1.0 / self.epsilon
 
-                #p_short
-                if 0 <= z <= d and d != 0:
-                    p_short =(2/d)*(1-(z/d))
-                else:
-                    p_short = 0.0
+        # p_rand
+        p_rand = np.zeros((W, W), dtype=np.float64)
+        p_rand[z_grid < z_max] = 1.0 / z_max
 
-                #p_max
-                p_max = 1.0/self.epsilon if (z_max-self.epsilon <= z <= z_max) else 0.0
-
-                # p_rand
-                if 0 <= z < z_max:
-                    p_rand = 1.0 / z_max
-                else:
-                    p_rand = 0.0
-
-                p = (
-                    self.alpha_hit * p_hit +
-                    self.alpha_short * p_short +
-                    self.alpha_max * p_max +
-                    self.alpha_rand * p_rand
-                )
-
-                col[z] = p
-
-            #Normalize
-            col_sum = np.sum(col)
-            if col_sum > 0:
-                col /= col_sum
-
-            table[:, d] = col
-
+        # Weighted mixture
+        table = (
+            self.alpha_hit * p_hit +
+            self.alpha_short * p_short +
+            self.alpha_max * p_max +
+            self.alpha_rand * p_rand
+        )
+        table = table / np.sum(table, axis=0, keepdims=True)
         self.sensor_model_table = table
 
     def evaluate(self, particles, observation):
@@ -236,3 +223,4 @@ class SensorModel:
         self.map_set = True
 
         print("Map initialized")
+    
