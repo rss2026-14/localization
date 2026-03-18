@@ -31,11 +31,11 @@ class SensorModel:
 
         ####################################
         # Adjust these parameters
-        self.alpha_hit = 0
-        self.alpha_short = 0
-        self.alpha_max = 0
-        self.alpha_rand = 0
-        self.sigma_hit = 0
+        self.alpha_hit = 0.74
+        self.alpha_short = 0.07
+        self.alpha_max = 0.07
+        self.alpha_rand = 0.12
+        self.sigma_hit = 8.0
         self.nu = 1
         self.epsilon = 0.1
 
