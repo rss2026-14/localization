@@ -1,5 +1,72 @@
 import numpy as np
 
+# import numpy as np
+
+
+# class MotionModel:
+
+#     def __init__(self, node):
+#         ####################################
+#         # TODO
+#         # Do any precomputation for the motion model here.
+
+#         node.declare_parameter("deterministic", False)
+#         self.deterministic = node.get_parameter("deterministic").get_parameter_value().bool_value
+
+#         self.sigma_x = 0.05
+#         self.sigma_y = 0.05
+#         self.sigma_theta = 0.1
+
+#         ####################################
+
+#     def evaluate(self, particles, odometry):
+#         """
+#         Update the particles to reflect probable
+#         future states given the odometry data.
+
+#         args:
+#             particles: An Nx3 matrix of the form:
+
+#                 [x0 y0 theta0]
+#                 [x1 y0 theta1]
+#                 [    ...     ]
+
+#             odometry: A 3-vector [dx dy dtheta]
+
+#         returns:
+#             particles: An updated matrix of the
+#                 same size
+#         """
+
+#         ####################################
+#         # TODO
+#         dx, dy, dtheta = odometry
+
+#         thetas = particles[:, 2]
+
+#         cos_thetas = np.cos(thetas)
+#         sin_thetas = np.sin(thetas)
+
+#         dx_global = dx * cos_thetas - dy * sin_thetas
+#         dy_global = dx * sin_thetas + dy * cos_thetas
+
+#         particles[:, 0] += dx_global
+#         particles[:, 1] += dy_global
+#         particles[:, 2] += dtheta
+
+#         # Noise
+#         if not self.deterministic:
+#             n = particles.shape[0]
+#             particles[:, 0] += np.random.normal(0, self.sigma_x, n)
+#             particles[:, 1] += np.random.normal(0, self.sigma_y, n)
+#             particles[:, 2] += np.random.normal(0, self.sigma_theta, n)
+
+#         particles[:, 2] = (particles[:, 2] + np.pi) % (2 * np.pi) - np.pi
+
+#         return particles
+
+#         ####################################
+
 import numpy as np
 
 
@@ -35,7 +102,6 @@ class MotionModel:
         """
 
         ####################################
-                # check shapes
         particles = np.asarray(particles)
         odometry = np.asarray(odometry)
         if particles.ndim != 2 or particles.shape[1] != 3:
