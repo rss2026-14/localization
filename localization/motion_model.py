@@ -114,7 +114,7 @@ class MotionModel:
 
         #translational displacement
         delta_trans = np.hypot(dx, dy)
-        
+
         if self.deterministic:
             #motion-dependent noise
             trans_std = np.sqrt(self.alpha_trans * delta_trans**2)

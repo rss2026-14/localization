@@ -22,7 +22,7 @@ class ParticleFilter(Node):
     def __init__(self):
         super().__init__("particle_filter")
 
-        self.declare_parameter('particle_filter_frame', "default")
+        self.declare_parameter('particle_filter_frame', "/base_link_pf")
         self.particle_filter_frame = self.get_parameter('particle_filter_frame').get_parameter_value().string_value
         #  *Important Note #1:* It is critical for your particle
         #     filter to obtain the following topic names from the
@@ -84,7 +84,7 @@ class ParticleFilter(Node):
         # Initialize the models
         self.motion_model = MotionModel(self)
         self.sensor_model = SensorModel(self)
-        
+
         #storing particles
         self.particles = None
         self.initialized = False
@@ -100,7 +100,7 @@ class ParticleFilter(Node):
         #
         # Publish a transformation frame between the map
         # and the particle_filter_frame.
-        
+
     def yaw_to_quaternion(self, yaw):
         """
         Convert yaw angle to quaternion [x, y, z, w].
@@ -279,6 +279,23 @@ class ParticleFilter(Node):
 
         self.initialize_particles(x, y, theta)
 
+    def odom_to_numpy_3vector(self, msg):
+        """
+        Converts a nav_msgs/Odometry message to a [x, y, theta] numpy array.
+        """
+        # Extract position
+        pos = msg.pose.pose.position
+
+        # Extract quaternion
+        q = msg.pose.pose.orientation
+
+        # Calculate yaw (theta) using the quaternion-to-euler formula
+        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
+        cosy_cosp = 1.0 - 2.0 * (q.y**2 + q.z**2)
+        theta = np.arctan2(siny_cosp, cosy_cosp)
+
+        return np.array([pos.x, pos.y, theta])
+
     def odom_callback(self, msg):
         """
         Motion update:
@@ -287,7 +304,8 @@ class ParticleFilter(Node):
         if not self.initialized:
             return
 
-        self.particles = self.motion_model.evaluate(self.particles, msg)
+        vector_odom = self.odom_to_numpy_3vector(msg)
+        self.particles = self.motion_model.evaluate(self.particles, vector_odom)
         self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
 
         self.publish_particles()
@@ -319,7 +337,7 @@ class ParticleFilter(Node):
 
         self.publish_particles()
         self.publish_estimate()
-        
+
 
 
 def main(args=None):
