@@ -88,6 +88,7 @@ class ParticleFilter(Node):
         #storing particles
         self.particles = None
         self.initialized = False
+        self.last_odom_time = None
 
         self.get_logger().info("=============+READY+=============")
 
@@ -279,37 +280,64 @@ class ParticleFilter(Node):
 
         self.initialize_particles(x, y, theta)
 
-    def odom_to_numpy_3vector(self, msg):
-        """
-        Converts a nav_msgs/Odometry message to a [x, y, theta] numpy array.
-        """
-        # Extract position
-        pos = msg.pose.pose.position
-
-        # Extract quaternion
-        q = msg.pose.pose.orientation
-
-        # Calculate yaw (theta) using the quaternion-to-euler formula
-        siny_cosp = 2.0 * (q.w * q.z + q.x * q.y)
-        cosy_cosp = 1.0 - 2.0 * (q.y**2 + q.z**2)
-        theta = np.arctan2(siny_cosp, cosy_cosp)
-
-        return np.array([pos.x, pos.y, theta])
-
     def odom_callback(self, msg):
         """
         Motion update:
         whenever odometry arrives, propagate particles.
         """
+        # if not self.initialized:
+        #     return
+
+        # # Inside odom_callback
+        # vx = msg.twist.twist.linear.x
+        # vy = msg.twist.twist.linear.y
+        # vtheta = msg.twist.twist.angular.z
+        # twist_vector = np.array([vx, vy, vtheta])
+
+        # # Pass twist and the time delta (dt) to your motion model
+        # self.particles = self.motion_model.evaluate(self.particles, twist_vector)
+        # self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
+
+        # self.publish_particles()
+        # self.publish_estimate()
         if not self.initialized:
             return
 
-        vector_odom = self.odom_to_numpy_3vector(msg)
-        self.particles = self.motion_model.evaluate(self.particles, vector_odom)
-        self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
+        # 1. Extract current time in seconds
+        current_time = msg.header.stamp.sec + (msg.header.stamp.nanosec * 1e-9)
 
-        self.publish_particles()
-        self.publish_estimate()
+        # 2. Handle first message initialization
+        if self.last_odom_time is None:
+            self.last_odom_time = current_time
+            return
+
+        # 3. Calculate dt (time elapsed since last message)
+        dt = current_time - self.last_odom_time
+        self.last_odom_time = current_time
+
+        # Safety check: if dt is negative or suspiciously large (e.g., sim reset)
+        if dt <= 0.0 or dt > 1.0:
+            return
+
+        # 4. Extract velocities from the TWIST component
+        vx = msg.twist.twist.linear.x
+        vy = msg.twist.twist.linear.y
+        vtheta = msg.twist.twist.angular.z
+
+        # 5. Calculate local delta (Velocity * Time)
+        dx_local = vx * dt
+        dy_local = vy * dt
+        dtheta = vtheta * dt
+
+        delta_pose = np.array([dx_local, dy_local, dtheta])
+
+        # 6. Apply to motion model if the robot actually moved
+        if np.any(np.abs(delta_pose) > 1e-5):
+            self.particles = self.motion_model.evaluate(self.particles, delta_pose)
+            self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
+
+            self.publish_particles()
+            self.publish_estimate()
 
     def laser_callback(self, msg):
         """
