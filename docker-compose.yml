@@ -1,7 +1,7 @@
 services:
   racecar:
     build: .
-    image: staffmitrss/racecar-sim:amd
+    image: staffmitrss/racecar-sim:arm
     ports:
       - 6080:6080 # VNC
     entrypoint: entrypoint.sh
