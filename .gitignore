@@ -1,3 +1,15 @@
+<<<<<<< HEAD
 home
 *.sw*
 __pycache__/
+=======
+log.npz
+.ipynb_checkpoints/
+build
+*.so
+scan_simulator_2d.cpp
+*.sw*
+*.pyc
+.vscode/
+CATKIN_IGNORE
+>>>>>>> 80cd9d965f86b574648b2d5f9c521e89f30d9c69

@@ -1,0 +1,108 @@
+[0.000000] (-) TimerEvent: {}
+[0.000705] (localization) JobQueued: {'identifier': 'localization', 'dependencies': OrderedDict()}
+[0.000804] (localization) JobStarted: {'identifier': 'localization'}
+[0.099789] (-) TimerEvent: {}
+[0.200112] (-) TimerEvent: {}
+[0.301068] (-) TimerEvent: {}
+[0.403043] (-) TimerEvent: {}
+[0.504074] (-) TimerEvent: {}
+[0.607048] (-) TimerEvent: {}
+[0.712041] (-) TimerEvent: {}
+[0.813037] (-) TimerEvent: {}
+[0.916051] (-) TimerEvent: {}
+[1.007799] (localization) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', 'build/localization', 'build', '--build-base', '/home/racecar/racecar_ws/src/localization/build/localization/build', 'install', '--record', '/home/racecar/racecar_ws/src/localization/build/localization/install.log', '--install-scripts', '$base/lib/localization', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/racecar/racecar_ws/src/localization', 'env': {'PYTHONIOENCODING': 'utf-8', 'HOSTNAME': '0cbdee9b2495', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/racecar/racecar_ws/install/custom_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/racecar', 'OLDPWD': '/home/racecar/racecar_ws/src', 'ROS_PYTHON_VERSION': '3', 'COLCON_PREFIX_PATH': '/home/sim_ws/install:/home/racecar/racecar_ws/install', 'ROS_DISTRO': 'humble', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'ROS_LOCALHOST_ONLY': '0', 'PATH': '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'en_US.UTF-8', 'AMENT_PREFIX_PATH': '/home/sim_ws/install/racecar_simulator:/home/racecar/racecar_ws/install/wall_follower:/home/racecar/racecar_ws/install/safety_controller:/home/racecar/racecar_ws/install/ros_exercises:/home/racecar/racecar_ws/install/py_pubsub:/home/racecar/racecar_ws/install/custom_msgs:/home/racecar/racecar_ws/install/1c_test:/opt/ros/humble', 'SIM_WS': '/home/sim_ws', 'PWD': '/home/racecar/racecar_ws/src/localization/build/localization', 'PYTHONPATH': '/home/racecar/racecar_ws/src/localization/build/localization/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages:/home/racecar/racecar_ws/install/wall_follower/lib/python3.10/site-packages:/home/racecar/racecar_ws/install/safety_controller/lib/python3.10/site-packages:/home/racecar/racecar_ws/install/ros_exercises/lib/python3.10/site-packages:/home/racecar/racecar_ws/install/py_pubsub/lib/python3.10/site-packages:/home/racecar/racecar_ws/install/custom_msgs/local/lib/python3.10/dist-packages:/home/racecar/racecar_ws/install/1c_test/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'NO_VNC_VERSION': '1.4.0', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/sim_ws/install/racecar_simulator:/home/racecar/racecar_ws/install/custom_msgs'}, 'shell': False}
+[1.017242] (-) TimerEvent: {}
+[1.118036] (-) TimerEvent: {}
+[1.221039] (-) TimerEvent: {}
+[1.322041] (-) TimerEvent: {}
+[1.360597] (localization) StderrLine: {'line': b"/usr/lib/python3/dist-packages/setuptools/dist.py:723: UserWarning: Usage of dash-separated 'script-dir' will not be supported in future versions. Please use the underscore name 'script_dir' instead\n"}
+[1.360997] (localization) StderrLine: {'line': b'  warnings.warn(\n'}
+[1.364445] (localization) StdoutLine: {'line': b'\x1b[39mrunning egg_info\x1b[0m\n'}
+[1.364794] (localization) StdoutLine: {'line': b'\x1b[39mcreating build/localization/localization.egg-info\x1b[0m\n'}
+[1.365056] (localization) StdoutLine: {'line': b'\x1b[39mwriting build/localization/localization.egg-info/PKG-INFO\x1b[0m\n'}
+[1.365424] (localization) StdoutLine: {'line': b'\x1b[39mwriting dependency_links to build/localization/localization.egg-info/dependency_links.txt\x1b[0m\n'}
+[1.365761] (localization) StdoutLine: {'line': b'\x1b[39mwriting entry points to build/localization/localization.egg-info/entry_points.txt\x1b[0m\n'}
+[1.366039] (localization) StdoutLine: {'line': b'\x1b[39mwriting requirements to build/localization/localization.egg-info/requires.txt\x1b[0m\n'}
+[1.366356] (localization) StdoutLine: {'line': b'\x1b[39mwriting top-level names to build/localization/localization.egg-info/top_level.txt\x1b[0m\n'}
+[1.366548] (localization) StdoutLine: {'line': b"\x1b[39mwriting manifest file 'build/localization/localization.egg-info/SOURCES.txt'\x1b[0m\n"}
+[1.368637] (localization) StdoutLine: {'line': b"\x1b[39mreading manifest file 'build/localization/localization.egg-info/SOURCES.txt'\x1b[0m\n"}
+[1.369352] (localization) StdoutLine: {'line': b"\x1b[39mwriting manifest file 'build/localization/localization.egg-info/SOURCES.txt'\x1b[0m\n"}
+[1.369557] (localization) StdoutLine: {'line': b'\x1b[39mrunning build\x1b[0m\n'}
+[1.369724] (localization) StdoutLine: {'line': b'\x1b[39mrunning build_py\x1b[0m\n'}
+[1.369942] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build\x1b[0m\n'}
+[1.370270] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10\x1b[0m\n'}
+[1.370651] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.370824] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/__init__.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.371024] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/motion_model.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.371250] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/particle_filter.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.371582] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/sensor_model.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.372039] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test\x1b[0m\n'}
+[1.372224] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/test/__init__.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test\x1b[0m\n'}
+[1.374192] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/test/motion_model_test.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test\x1b[0m\n'}
+[1.374551] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/test/sensor_model_test.py -> /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test\x1b[0m\n'}
+[1.375355] (localization) StdoutLine: {'line': b'\x1b[39mrunning build_ext\x1b[0m\n'}
+[1.375822] (localization) StdoutLine: {'line': b"\x1b[39mbuilding 'scan_simulator_2d' extension\x1b[0m\n"}
+[1.377277] (localization) StdoutLine: {'line': b'\x1b[39mC compiler: aarch64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -fPIC\n'}
+[1.377498] (localization) StdoutLine: {'line': b'\x1b[0m\n'}
+[1.377785] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build/temp.linux-aarch64-3.10\x1b[0m\n'}
+[1.377918] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/build/localization/build/temp.linux-aarch64-3.10/localization\x1b[0m\n'}
+[1.378044] (localization) StdoutLine: {'line': b"\x1b[39mcompile options: '-I/home/sim_ws/install/racecar_simulator/include -I/home/racecar/racecar_ws/src/localization/install/localization/include -I/usr/include/python3.10 -c'\n"}
+[1.378121] (localization) StdoutLine: {'line': b"extra options: '-Wno-cpp -g -Wno-maybe-uninitialized'\x1b[0m\n"}
+[1.378205] (localization) StdoutLine: {'line': b'\x1b[39maarch64-linux-gnu-gcc: localization/scan_simulator_2d.cpp\x1b[0m\n'}
+[1.423202] (-) TimerEvent: {}
+[1.524058] (-) TimerEvent: {}
+[1.626064] (-) TimerEvent: {}
+[1.730071] (-) TimerEvent: {}
+[1.832052] (-) TimerEvent: {}
+[1.933047] (-) TimerEvent: {}
+[2.034065] (-) TimerEvent: {}
+[2.106525] (localization) StdoutLine: {'line': b'\x1b[39maarch64-linux-gnu-g++ -shared -Wl,-O1 -Wl,-Bsymbolic-functions -Wl,-Bsymbolic-functions -g -fwrapv -O2 -Wl,-Bsymbolic-functions -g -fwrapv -O2 -g -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 /home/racecar/racecar_ws/src/localization/build/localization/build/temp.linux-aarch64-3.10/localization/scan_simulator_2d.o -L/home/sim_ws/install/racecar_simulator/lib -lracecar_simulator -o /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/scan_simulator_2d.cpython-310-aarch64-linux-gnu.so\x1b[0m\n'}
+[2.135091] (-) TimerEvent: {}
+[2.148877] (localization) StdoutLine: {'line': b'\x1b[39mrunning install\x1b[0m\n'}
+[2.149075] (localization) StdoutLine: {'line': b'\x1b[39mrunning install_lib\x1b[0m\n'}
+[2.149420] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/scan_simulator_2d.cpython-310-aarch64-linux-gnu.so -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages\x1b[0m\n'}
+[2.150631] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization\x1b[0m\n'}
+[2.150902] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test\x1b[0m\n'}
+[2.151167] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test/__init__.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test\x1b[0m\n'}
+[2.152990] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test/motion_model_test.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test\x1b[0m\n'}
+[2.153515] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/test/sensor_model_test.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test\x1b[0m\n'}
+[2.154016] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/__init__.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization\x1b[0m\n'}
+[2.154679] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/motion_model.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization\x1b[0m\n'}
+[2.155307] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/particle_filter.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization\x1b[0m\n'}
+[2.155863] (localization) StdoutLine: {'line': b'\x1b[39mcopying /home/racecar/racecar_ws/src/localization/build/localization/build/lib.linux-aarch64-3.10/localization/sensor_model.py -> /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization\x1b[0m\n'}
+[2.157431] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test/__init__.py to __init__.cpython-310.pyc\x1b[0m\n'}
+[2.203446] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test/motion_model_test.py to motion_model_test.cpython-310.pyc\x1b[0m\n'}
+[2.204303] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/test/sensor_model_test.py to sensor_model_test.cpython-310.pyc\x1b[0m\n'}
+[2.205198] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/__init__.py to __init__.cpython-310.pyc\x1b[0m\n'}
+[2.205806] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/motion_model.py to motion_model.cpython-310.pyc\x1b[0m\n'}
+[2.206056] (localization) StderrLine: {'line': b'Sorry: IndentationError: expected an indented block after function definition on line 8 (motion_model.py, line 10)\n'}
+[2.206221] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/particle_filter.py to particle_filter.cpython-310.pyc\x1b[0m\n'}
+[2.206815] (localization) StdoutLine: {'line': b'\x1b[39mbyte-compiling /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization/sensor_model.py to sensor_model.cpython-310.pyc\x1b[0m\n'}
+[2.207742] (localization) StdoutLine: {'line': b'\x1b[39mrunning install_data\x1b[0m\n'}
+[2.208130] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/share/ament_index\x1b[0m\n'}
+[2.208771] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/share/ament_index/resource_index\x1b[0m\n'}
+[2.209019] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/share/ament_index/resource_index/packages\x1b[0m\n'}
+[2.209383] (localization) StdoutLine: {'line': b'\x1b[39mcopying resource/localization -> /home/racecar/racecar_ws/src/localization/install/localization/share/ament_index/resource_index/packages\x1b[0m\n'}
+[2.209860] (localization) StdoutLine: {'line': b'\x1b[39mcopying package.xml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization\x1b[0m\n'}
+[2.210570] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/params.yaml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization\x1b[0m\n'}
+[2.211033] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/test/test_params.yaml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization\x1b[0m\n'}
+[2.211931] (localization) StdoutLine: {'line': b'\x1b[39mcopying localization/real_params.yaml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization\x1b[0m\n'}
+[2.212441] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/share/localization/launch\x1b[0m\n'}
+[2.212692] (localization) StdoutLine: {'line': b'\x1b[39mcopying launch/localize.launch.xml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/launch\x1b[0m\n'}
+[2.213486] (localization) StdoutLine: {'line': b'\x1b[39mcopying launch/unit_tests/sensor_model_test.launch.py -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/launch\x1b[0m\n'}
+[2.213934] (localization) StdoutLine: {'line': b'\x1b[39mcopying launch/unit_tests/motion_model_test.launch.py -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/launch\x1b[0m\n'}
+[2.214496] (localization) StdoutLine: {'line': b'\x1b[39mcopying launch/unit_tests/test_map.launch.xml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/launch\x1b[0m\n'}
+[2.214905] (localization) StdoutLine: {'line': b'\x1b[39mcreating /home/racecar/racecar_ws/src/localization/install/localization/share/localization/test_map\x1b[0m\n'}
+[2.215308] (localization) StdoutLine: {'line': b'\x1b[39mcopying test_map/test_map.yaml -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/test_map\x1b[0m\n'}
+[2.215910] (localization) StdoutLine: {'line': b'\x1b[39mcopying test_map/test_map.png -> /home/racecar/racecar_ws/src/localization/install/localization/share/localization/test_map\x1b[0m\n'}
+[2.217021] (localization) StdoutLine: {'line': b'\x1b[39mrunning install_egg_info\x1b[0m\n'}
+[2.217441] (localization) StdoutLine: {'line': b'\x1b[39mCopying build/localization/localization.egg-info to /home/racecar/racecar_ws/src/localization/install/localization/lib/python3.10/site-packages/localization-0.0.0-py3.10.egg-info\x1b[0m\n'}
+[2.222023] (localization) StdoutLine: {'line': b'\x1b[39mrunning install_scripts\x1b[0m\n'}
+[2.223935] (localization) StdoutLine: {'line': b'\x1b[39mInstalling motion_model_test script to /home/racecar/racecar_ws/src/localization/install/localization/lib/localization\x1b[0m\n'}
+[2.224669] (localization) StdoutLine: {'line': b'\x1b[39mInstalling particle_filter script to /home/racecar/racecar_ws/src/localization/install/localization/lib/localization\x1b[0m\n'}
+[2.225115] (localization) StdoutLine: {'line': b'\x1b[39mInstalling sensor_model_test script to /home/racecar/racecar_ws/src/localization/install/localization/lib/localization\x1b[0m\n'}
+[2.225922] (localization) StdoutLine: {'line': b"\x1b[39mwriting list of installed files to '/home/racecar/racecar_ws/src/localization/build/localization/install.log'\x1b[0m\n"}
+[2.236134] (-) TimerEvent: {}
+[2.315057] (localization) CommandEnded: {'returncode': 0}
+[2.327386] (localization) JobEnded: {'identifier': 'localization', 'rc': 0}
+[2.328300] (-) EventReactorShutdown: {}
