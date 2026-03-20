@@ -1,19 +1,3 @@
-|---------------|----------------------------------------------------------------------------|
-| Part A individual submission (gradescope) | Friday, March 20st at 11:59PM EST |
-| Part B team submission (gradescope) | Monday, April 6th at 11:59PM EST |
-| OPTIONAL: Parts D and E | Monday, April 6th at 11:59PM EST |
-| Pushed code | Monday, April 6th at 11:59PM EST |
-| Briefing (8 min presentation + 3 min Q&A) | Monday, April 6th at 1:00PM EST |
-| Report (on team github pages website) | Friday, April 10th at 11:59PM EST |
-| Checkoff | Wednesday, April 8th at 7:00PM EST |
-| [Team Member Assessment](https://forms.gle/5NEPu4AFvtLoBeeTA) | Wednesday, April 8th at 11:59PM EST |
-
-*Note: We will assume the lowest score if the team member assessment form is not submitted on time*
-
-*Note: Late checkoffs will incur a percentage penalty to your participation grade. Missed checkoffs will result in -1% to your overall grade*
-
-**A lot of this lab's instructions are in this notebook with detailed instructions for each module: [README.ipynb](README.ipynb) We include them in a python notebook to take advantage of mathematical formatting that markdown doesn't support.** 
-
 # Lab 5: Monte Carlo Localization (MCL)
 
 ## Introduction
