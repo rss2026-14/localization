@@ -75,7 +75,7 @@ class MotionModel:
     def __init__(self, node):
         ####################################
         self.node = node
-
+        self.deterministic = True
         #tune these
         self.alpha_trans = 0.05 # translation noise from translation
         self.alpha_rot = 0.02 # rotation noise from translation/rotation
@@ -114,22 +114,27 @@ class MotionModel:
 
         #translational displacement
         delta_trans = np.hypot(dx, dy)
+        
+        if self.deterministic:
+            #motion-dependent noise
+            trans_std = np.sqrt(self.alpha_trans * delta_trans**2)
+            rot_std = np.sqrt(
+                self.alpha_rot * dtheta**2 +
+                self.alpha_rot * delta_trans**2
+            )
+            slip_std = np.sqrt(self.alpha_slip * delta_trans**2)
 
-        #motion-dependent noise
-        trans_std = np.sqrt(self.alpha_trans * delta_trans**2)
-        rot_std = np.sqrt(
-            self.alpha_rot * dtheta**2 +
-            self.alpha_rot * delta_trans**2
-        )
-        slip_std = np.sqrt(self.alpha_slip * delta_trans**2)
+            #sample noise independently for each particle
+            trans_noise = np.random.normal(0.0, trans_std, size=n)
+            rot_noise = np.random.normal(0.0, rot_std, size=n)
+            slip_noise = np.random.normal(0.0, slip_std, size=n)
 
-        #sample noise independently for each particle
-        trans_noise = np.random.normal(0.0, trans_std, size=n)
-        rot_noise = np.random.normal(0.0, rot_std, size=n)
-        slip_noise = np.random.normal(0.0, slip_std, size=n)
-
-        delta_trans_hat = delta_trans + trans_noise
-        dtheta_hat = dtheta + rot_noise
+            delta_trans_hat = delta_trans + trans_noise
+            dtheta_hat = dtheta + rot_noise
+        else:
+            delta_trans_hat = delta_trans
+            dtheta_hat = dtheta
+            slip_noise = 0.0
 
         #updating
         theta = particles[:, 2]
