@@ -90,7 +90,9 @@ class ParticleFilter(Node):
         self.initialized = False
         self.last_odom_time = None
         self.particle_weights = None
+
         self.total_distance_moved = 0.0
+        self.settle_cycles = 0
 
         self.get_logger().info("=============+READY+=============")
 
@@ -139,6 +141,11 @@ class ParticleFilter(Node):
         self.particles[:, 2] = np.random.normal(theta, self.init_theta_std, self.num_particles)
         self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
         self.initialized = True
+
+        self.settle_cycles = 40
+
+        self.particle_weights = None
+        self.total_distance_moved = 0.0
 
         self.get_logger().info(
             f"Initialized {self.num_particles} particles at "
@@ -360,42 +367,44 @@ class ParticleFilter(Node):
 
             self.total_distance_moved += np.hypot(dx_local, dy_local)
 
-            self.publish_particles()
-            self.publish_estimate()
+        self.publish_particles()
+        self.publish_estimate()
 
     def laser_callback(self, msg):
         """
         Sensor update:
         compute particle weights from scan, then resample.
         """
-        if not self.initialized:
-            return
-
-        if not self.sensor_model.map_set:
+        if not self.initialized or not self.sensor_model.map_set:
             return
 
         observation = np.array(msg.ranges, dtype=np.float64)
-
-        # Replace inf/nan values with max range so indexing stays sane
         invalid = ~np.isfinite(observation)
         observation[invalid] = msg.range_max
         observation = np.clip(observation, msg.range_min, msg.range_max)
 
+        # 1. ALWAYS calculate the new weights based on the current scan
         weights = self.sensor_model.evaluate(self.particles, observation)
         if weights is None:
             return
 
+        # 2. ALWAYS save the weights so the pose estimate updates dynamically
         self.particle_weights = weights
 
-        # self.resample_particles(weights)
+        # ---> NEW: Resample if we moved, OR if we are currently settling
+        if self.total_distance_moved > 0.05 or self.settle_cycles > 0:
 
-        if self.total_distance_moved > 0.05:
             self.resample_particles(weights)
-            self.total_distance_moved = 0.0
 
+            # If we are settling, count down. Otherwise, reset the distance tracker.
+            if self.settle_cycles > 0:
+                self.settle_cycles -= 1
+            else:
+                self.total_distance_moved = 0.0
+
+        # 4. ALWAYS publish the updated estimate
         self.publish_particles()
         self.publish_estimate()
-
 
 
 def main(args=None):
