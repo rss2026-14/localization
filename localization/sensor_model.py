@@ -169,14 +169,15 @@ class SensorModel():
             obs = obs[beam_indices]
 
         #convert real ranges to the lookup-table scale table indices must be integers in [0, table_width-1]
+        # Convert to pixels by DIVIDING by (resolution * scale)
         obs_idx = np.clip(
-            np.rint(obs * self.lidar_scale_to_map_scale).astype(int),
+            np.rint(obs / (self.resolution * self.lidar_scale_to_map_scale)).astype(int),
             0,
             self.table_width - 1
         )
 
         scan_idx = np.clip(
-            np.rint(scans * self.lidar_scale_to_map_scale).astype(int),
+            np.rint(scans / (self.resolution * self.lidar_scale_to_map_scale)).astype(int),
             0,
             self.table_width - 1
         )
@@ -185,11 +186,19 @@ class SensorModel():
         probabilities = np.ones(num_particles, dtype=np.float64)
 
         #multiply beam likelihoods for each particle
+        # for i in range(self.num_beams_per_particle):
+        #     z_meas = obs_idx[i]
+        #     z_exp = scan_idx[:, i]
+        #     beam_probs = self.sensor_model_table[z_meas, z_exp]
+        #     probabilities *= beam_probs
+
+        SQUASH_FACTOR = 1.0 / 3.0
+
         for i in range(self.num_beams_per_particle):
             z_meas = obs_idx[i]
             z_exp = scan_idx[:, i]
             beam_probs = self.sensor_model_table[z_meas, z_exp]
-            probabilities *= beam_probs
+            probabilities *= np.power(beam_probs, SQUASH_FACTOR)
 
         return probabilities
 
@@ -222,4 +231,3 @@ class SensorModel():
         self.map_set = True
 
         print("Map initialized")
-    

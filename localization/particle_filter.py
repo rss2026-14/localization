@@ -89,6 +89,8 @@ class ParticleFilter(Node):
         self.particles = None
         self.initialized = False
         self.last_odom_time = None
+        self.particle_weights = None
+        self.total_distance_moved = 0.0
 
         self.get_logger().info("=============+READY+=============")
 
@@ -151,14 +153,34 @@ class ParticleFilter(Node):
         Compute a mean pose from particles.
         Uses circular mean for heading.
         """
+        # if self.particles is None or len(self.particles) == 0:
+        #     return None
+
+        # x_mean = np.mean(self.particles[:, 0])
+        # y_mean = np.mean(self.particles[:, 1])
+
+        # cos_mean = np.mean(np.cos(self.particles[:, 2]))
+        # sin_mean = np.mean(np.sin(self.particles[:, 2]))
+        # theta_mean = np.arctan2(sin_mean, cos_mean)
+
+        # return np.array([x_mean, y_mean, theta_mean], dtype=np.float64)
         if self.particles is None or len(self.particles) == 0:
             return None
 
-        x_mean = np.mean(self.particles[:, 0])
-        y_mean = np.mean(self.particles[:, 1])
+        # prevent wall-merging
+        if self.particle_weights is None:
+            best_particles = self.particles
+        else:
+            sorted_indices = np.argsort(self.particle_weights)[::-1]
+            top_10_percent_idx = int(self.num_particles * 0.10)
+            best_indices = sorted_indices[:max(1, top_10_percent_idx)]
+            best_particles = self.particles[best_indices]
 
-        cos_mean = np.mean(np.cos(self.particles[:, 2]))
-        sin_mean = np.mean(np.sin(self.particles[:, 2]))
+        x_mean = np.mean(best_particles[:, 0])
+        y_mean = np.mean(best_particles[:, 1])
+
+        cos_mean = np.mean(np.cos(best_particles[:, 2]))
+        sin_mean = np.mean(np.sin(best_particles[:, 2]))
         theta_mean = np.arctan2(sin_mean, cos_mean)
 
         return np.array([x_mean, y_mean, theta_mean], dtype=np.float64)
@@ -336,6 +358,8 @@ class ParticleFilter(Node):
             self.particles = self.motion_model.evaluate(self.particles, delta_pose)
             self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
 
+            self.total_distance_moved += np.hypot(dx_local, dy_local)
+
             self.publish_particles()
             self.publish_estimate()
 
@@ -361,7 +385,13 @@ class ParticleFilter(Node):
         if weights is None:
             return
 
-        self.resample_particles(weights)
+        self.particle_weights = weights
+
+        # self.resample_particles(weights)
+
+        if self.total_distance_moved > 0.05:
+            self.resample_particles(weights)
+            self.total_distance_moved = 0.0
 
         self.publish_particles()
         self.publish_estimate()
