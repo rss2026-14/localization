@@ -402,6 +402,8 @@ class ParticleFilter(Node):
             else:
                 self.total_distance_moved = 0.0
 
+        self.get_logger().info(f"Min: {msg.angle_min}, Max: {msg.angle_max}, FOV: {msg.angle_max - msg.angle_min}")
+
         # 4. ALWAYS publish the updated estimate
         self.publish_particles()
         self.publish_estimate()
