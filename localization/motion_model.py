@@ -9,9 +9,13 @@ class MotionModel:
             "deterministic"
         ).get_parameter_value().bool_value
 
-        self.alpha_trans = 0.05
-        self.alpha_rot = 0.02
-        self.alpha_slip = 0.01
+        # self.alpha_trans = 0.05
+        # self.alpha_rot = 0.02
+        # self.alpha_slip = 0.01
+
+        self.alpha_trans = 0.15
+        self.alpha_rot = 0.10
+        self.alpha_slip = 0.08
 
     def evaluate(self, particles, odometry):
         particles = np.asarray(particles, dtype=np.float64)
