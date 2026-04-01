@@ -35,10 +35,16 @@ class ParticleFilter(Node):
         self.declare_parameter('odom_topic', "/odom")
         self.declare_parameter('scan_topic', "/scan")
         self.declare_parameter('num_particles', 500)
-        self.declare_parameter('init_x_std', 0.5)
-        self.declare_parameter('init_y_std', 0.5)
-        self.declare_parameter('init_theta_std', 0.3)
-        self.declare_parameter('resample_position_std', 0.02)
+        # self.declare_parameter('init_x_std', 0.5)
+        # self.declare_parameter('init_y_std', 0.5)
+        # self.declare_parameter('init_theta_std', 0.3)
+        self.declare_parameter('init_x_std', 0.7)
+        self.declare_parameter('init_y_std', 0.7)
+        self.declare_parameter('init_theta_std', 0.5)
+
+        # self.declare_parameter('resample_position_std', 0.02)
+        # self.declare_parameter('resample_theta_std', 0.01)
+        self.declare_parameter('resample_position_std', 0.06)
         self.declare_parameter('resample_theta_std', 0.01)
 
 
@@ -91,8 +97,8 @@ class ParticleFilter(Node):
         self.last_odom_time = None
         self.particle_weights = None
 
-        self.total_distance_moved = 0.0
-        self.settle_cycles = 0
+        # self.total_distance_moved = 0.0
+        # self.settle_cycles = 0
 
         self.get_logger().info("=============+READY+=============")
 
@@ -142,10 +148,10 @@ class ParticleFilter(Node):
         self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
         self.initialized = True
 
-        self.settle_cycles = 40
+        # self.settle_cycles = 70
 
         self.particle_weights = None
-        self.total_distance_moved = 0.0
+        # self.total_distance_moved = 0.0
 
         self.get_logger().info(
             f"Initialized {self.num_particles} particles at "
@@ -314,21 +320,6 @@ class ParticleFilter(Node):
         Motion update:
         whenever odometry arrives, propagate particles.
         """
-        # if not self.initialized:
-        #     return
-
-        # # Inside odom_callback
-        # vx = msg.twist.twist.linear.x
-        # vy = msg.twist.twist.linear.y
-        # vtheta = msg.twist.twist.angular.z
-        # twist_vector = np.array([vx, vy, vtheta])
-
-        # # Pass twist and the time delta (dt) to your motion model
-        # self.particles = self.motion_model.evaluate(self.particles, twist_vector)
-        # self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
-
-        # self.publish_particles()
-        # self.publish_estimate()
         if not self.initialized:
             return
 
@@ -361,11 +352,11 @@ class ParticleFilter(Node):
         delta_pose = np.array([dx_local, dy_local, dtheta])
 
         # 6. Apply to motion model if the robot actually moved
-        if np.any(np.abs(delta_pose) > 1e-5):
-            self.particles = self.motion_model.evaluate(self.particles, delta_pose)
-            self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
+        # if np.any(np.abs(delta_pose) > 1e-5):
+        self.particles = self.motion_model.evaluate(self.particles, delta_pose)
+        self.particles[:, 2] = self.wrap_angle(self.particles[:, 2])
 
-            self.total_distance_moved += np.hypot(dx_local, dy_local)
+        # self.total_distance_moved += np.hypot(dx_local, dy_local)
 
         self.publish_particles()
         self.publish_estimate()
@@ -391,16 +382,16 @@ class ParticleFilter(Node):
         # 2. ALWAYS save the weights so the pose estimate updates dynamically
         self.particle_weights = weights
 
-        # ---> NEW: Resample if we moved, OR if we are currently settling
-        if self.total_distance_moved > 0.05 or self.settle_cycles > 0:
+        # # Resample if we moved, OR if we are currently settling
+        # if self.total_distance_moved > 0.05 or self.settle_cycles > 0:
 
-            self.resample_particles(weights)
+        self.resample_particles(weights)
 
-            # If we are settling, count down. Otherwise, reset the distance tracker.
-            if self.settle_cycles > 0:
-                self.settle_cycles -= 1
-            else:
-                self.total_distance_moved = 0.0
+            # # If we are settling, count down. Otherwise, reset the distance tracker.
+            # if self.settle_cycles > 0:
+            #     self.settle_cycles -= 1
+            # else:
+            #     self.total_distance_moved = 0.0
 
         self.get_logger().info(f"Min: {msg.angle_min}, Max: {msg.angle_max}, FOV: {msg.angle_max - msg.angle_min}")
 

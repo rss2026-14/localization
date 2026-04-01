@@ -35,8 +35,8 @@ class SensorModel():
         self.alpha_short = 0.07
         self.alpha_max = 0.07
         self.alpha_rand = 0.12
-        # self.sigma_hit = 8.0
-        self.sigma_hit = 12.0
+        self.sigma_hit = 5.0
+        # self.sigma_hit = 12.0
         # Your sensor table will be a `table_width` x `table_width` np array:
         self.table_width = 201
         ####################################
@@ -189,22 +189,21 @@ class SensorModel():
         probabilities = np.ones(num_particles, dtype=np.float64)
 
         #multiply beam likelihoods for each particle
-        for i in range(self.num_beams_per_particle):
-            z_meas = obs_idx[i]
-            z_exp = scan_idx[:, i]
-            beam_probs = self.sensor_model_table[z_meas, z_exp]
-            probabilities *= beam_probs
-
-        self.node.get_logger().info(f"{probabilities[1:3]}")
-
-        # SQUASH_FACTOR = 1.0 / 3.0
-
         # for i in range(self.num_beams_per_particle):
         #     z_meas = obs_idx[i]
         #     z_exp = scan_idx[:, i]
         #     beam_probs = self.sensor_model_table[z_meas, z_exp]
-        #     probabilities *= np.power(beam_probs, SQUASH_FACTOR)
+        #     probabilities *= beam_probs
 
+        SQUASH_FACTOR = 1.0 / 3.0
+
+        for i in range(self.num_beams_per_particle):
+            z_meas = obs_idx[i]
+            z_exp = scan_idx[:, i]
+            beam_probs = self.sensor_model_table[z_meas, z_exp]
+            probabilities *= np.power(beam_probs, SQUASH_FACTOR)
+
+        self.node.get_logger().info(f"{probabilities[1:3]}")
 
         return probabilities
 
