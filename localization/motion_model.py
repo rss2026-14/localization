@@ -13,9 +13,9 @@ class MotionModel:
         # self.alpha_rot = 0.02
         # self.alpha_slip = 0.01
 
-        self.alpha_trans = 0.15
-        self.alpha_rot = 0.10
-        self.alpha_slip = 0.08
+        self.alpha_trans = 0.04
+        self.alpha_rot = 0.03
+        self.alpha_slip = 0.005
 
     def evaluate(self, particles, odometry):
         particles = np.asarray(particles, dtype=np.float64)
