@@ -44,8 +44,8 @@ class ParticleFilter(Node):
 
         # self.declare_parameter('resample_position_std', 0.02)
         # self.declare_parameter('resample_theta_std', 0.01)
-        self.declare_parameter('resample_position_std', 0.06)
-        self.declare_parameter('resample_theta_std', 0.01)
+        self.declare_parameter('resample_position_std', 0.1)
+        self.declare_parameter('resample_theta_std', 0.05)
 
 
         scan_topic = self.get_parameter("scan_topic").get_parameter_value().string_value

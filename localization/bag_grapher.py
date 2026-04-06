@@ -2,15 +2,8 @@ import numpy as np
 
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import (
-    PoseWithCovarianceStamped,
-    PoseArray,
-    Pose,
-    TransformStamped,
-)
-from ackermann_msgs.msg import AckermannDriveStamped
-import tf_transformations
-from tf2_ros import TransformBroadcaster
+import csv
+import os
 
 from rclpy.node import Node
 import rclpy
@@ -18,22 +11,39 @@ import rclpy
 class BagPublisher(Node):
     def __init__(self):
         super().__init__('bag_publisher')
-        #self.publisher = self.create_publisher(
-        #    AckermannDriveStamped,'/drive', 10)
-        #self.subscription = self.create_subscription(
-        #    AckermannDriveStamped,'/vesc/low_level/input/teleop',self.driveCall,10)
+
         self.laserpublisher = self.create_publisher(
             LaserScan,'/laserscan', 10)
         self.lasersubscription = self.create_subscription(
             LaserScan,'/scan',self.laserCall,10)
 
-    #def driveCall(self,drive):
-    #    drive.header.frame_id = "base_link"
-    #    self.publisher.publish(drive)
+        self.csv_file = "test_error_localize.csv"
+        if not os.path.exists(self.csv_file):
+            with open(self.csv_file, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow(["timestamp","nano","x","y"])
+
+        self.subscription = self.create_subscription(
+            Odometry,
+            "/pf/pose/odom",
+            self.odom_callback,
+            10
+        )
+        self.subscription
 
     def laserCall(self,scan):
         scan.header.frame_id = "base_link_pf"
         self.laserpublisher.publish(scan)
+
+    def odom_callback(self,odom):
+        time=odom.header.stamp.sec
+        nano=odom.header.stamp.nanosec
+        x=odom.pose.pose.position.x
+        y=odom.pose.pose.position.y
+
+        with open(self.csv_file, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([time, nano, x, y])
 
 
 def main(args=None):
