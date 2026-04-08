@@ -1,0 +1,13 @@
+session_name: localization
+windows:
+  - window_name: localize
+    layout: tiled
+    shell_command_before:
+      - connect
+    panes:
+      - shell_command:
+        - teleop
+      - shell_command:
+        - ros2 launch localization deploy_localise.launch.xml
+      - shell_command:
+        - ros2 launch racecar_simulator localization_simulate.launch.xml
