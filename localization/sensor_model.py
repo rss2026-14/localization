@@ -31,11 +31,44 @@ class SensorModel():
 
         ####################################
         # Adjust these parameters
-        self.alpha_hit = 0.82
-        self.alpha_short = 0.03
+        
+    
+        
+        # Set 1
+        #self.alpha_hit = 0.87
+        #self.alpha_short = 0.02
+        #self.alpha_max = 0.04
+        #self.alpha_rand = 0.07
+        #self.sigma_hit = 2.2
+        
+        # Set 2
+        #self.alpha_hit = 0.83
+        #self.alpha_short = 0.02
+        #self.alpha_max = 0.05
+        #self.alpha_rand = 0.10
+        #self.sigma_hit = 2.8
+        
+        # Set 3
+        self.alpha_hit = 0.85
+        self.alpha_short = 0.02
         self.alpha_max = 0.05
-        self.alpha_rand = 0.1
-        self.sigma_hit = 3.0
+        self.alpha_rand = 0.08
+        self.sigma_hit = 2.5
+        
+        # Set 4
+        #self.alpha_hit = 0.84
+        #self.alpha_short = 0.04
+        #self.alpha_max = 0.04
+        #self.alpha_rand = 0.08
+        #self.sigma_hit = 2.5
+        
+        # Set 5
+        #self.alpha_hit = 0.84
+        #self.alpha_short = 0.02
+        #self.alpha_max = 0.07
+        #self.alpha_rand = 0.07
+        #self.sigma_hit = 2.3
+        
         # self.sigma_hit = 12.0
         # Your sensor table will be a `table_width` x `table_width` np array:
         self.table_width = 201
@@ -127,8 +160,7 @@ class SensorModel():
         )
         table = table / np.sum(table, axis=0, keepdims=True)
         self.sensor_model_table = table
-
-
+    
     def evaluate(self, particles, observation):
         """
         Evaluate how likely each particle is given
@@ -162,7 +194,7 @@ class SensorModel():
         # This produces a matrix of size N x num_beams_per_particle
 
         scans = self.scan_sim.scan(particles)
-
+        
         #downsample observation to the same number of beams
         obs = np.asarray(observation, dtype=np.float64)
         if len(obs) != self.num_beams_per_particle:
