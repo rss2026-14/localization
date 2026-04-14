@@ -202,9 +202,7 @@ class SensorModel():
             z_exp = scan_idx[:, i]
             beam_probs = self.sensor_model_table[z_meas, z_exp]
             probabilities *= np.power(beam_probs, SQUASH_FACTOR)
-
-        self.node.get_logger().info(f"{probabilities[1:3]}")
-
+            
         return probabilities
 
 
