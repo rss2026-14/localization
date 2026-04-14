@@ -9,14 +9,24 @@ class MotionModel:
             "deterministic"
         ).get_parameter_value().bool_value
 
-        # self.alpha_trans = 0.05
-        # self.alpha_rot = 0.02
-        # self.alpha_slip = 0.01
-
-        self.alpha_trans = 0.04
-        self.alpha_rot = 0.03
-        self.alpha_slip = 0.005
-
+#        noise params: low_noise
+        #self.alpha_trans = 0.05
+        #self.alpha_rot = 0.025
+        #self.alpha_slip = 0.01
+        
+        #noise params: high_noise
+        self.alpha_trans = 2 * 0.05
+        self.alpha_rot = 2 * 0.025
+        self.alpha_slip = 2 * 0.01
+#        
+#        #no noise
+#        self.alpha_trans = 2 * 0.05
+#        self.alpha_rot = 2 * 0.025
+#        self.alpha_slip = 2 * 0.01
+        
+        
+        
+        
     def evaluate(self, particles, odometry):
         particles = np.asarray(particles, dtype=np.float64)
         odometry = np.asarray(odometry, dtype=np.float64)
@@ -27,6 +37,7 @@ class MotionModel:
             raise ValueError("odometry must be a 3-vector [dx, dy, dtheta]")
 
         dx, dy, dtheta = odometry
+        
         n = particles.shape[0]
 
         dx_hat = np.full(n, dx)

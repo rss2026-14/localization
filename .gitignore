@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+localization_bags/
 home
 *.sw*
 __pycache__/
@@ -12,4 +12,3 @@ scan_simulator_2d.cpp
 *.pyc
 .vscode/
 CATKIN_IGNORE
->>>>>>> 80cd9d965f86b574648b2d5f9c521e89f30d9c69
