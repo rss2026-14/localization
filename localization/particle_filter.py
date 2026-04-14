@@ -31,8 +31,8 @@ class ParticleFilter(Node):
 
         #self.declare_parameter("resample_position_std", 0.01)
         #self.declare_parameter("resample_theta_std", 0.005)
-        self.declare_parameter("resample_position_std", 0.1)
-        self.declare_parameter("resample_theta_std", 0.05)
+        self.declare_parameter("resample_position_std", 0.2)
+        self.declare_parameter("resample_theta_std", 0.1)
 
         self.declare_parameter("runtime_csv_path", "")
         self.declare_parameter("debug_runtime_logs", False)
